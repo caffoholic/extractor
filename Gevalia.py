@@ -1,58 +1,45 @@
 import os, sys, time
-import tasks
+import tasks, ac
 
 os.system('clear')
 
-class clr:
-    R = "\033[0;31m"
-    W = "\033[0m"
-    G = "\033[0;32m"
-    B = "\033[0;34m"
-    Y = "\033[0;93m"
-
-class alerts:
-    true =      "[" + clr.G + "!" + clr.W + "]\t"
-    false =     "[" + clr.R + "!" + clr.W + "]\t"
-    pending =   "[" + clr.Y + "!" + clr.W + "]\t"
-
 def Welcome():
-    print("\t"+clr.Y+"G3V4L14 S0FTW4R3!"+clr.W)
-    print("\t"+clr.G+"Github: "+clr.B+"Gevalia"+clr.W)
-    print("\t"+clr.Y+"Other socials: "+clr.R+"Coming soon.."+clr.W)
-    print
+    print("\t"+ac.clr.Y+"G3V4L14 S0FTW4R3!"+ac.clr.W)
+    print("\t"+ac.clr.G+"Github: "+ac.clr.B+"Gevalia"+ac.clr.W)
+    print("\t"+ac.clr.Y+"Other socials: "+ac.clr.R+"Coming soon.."+ac.clr.W)
+    print("\n")
     time.sleep(0.5)
 
 
 def wip():
-    print(alerts.pending+clr.R+"This task hasnt been added yet"+clr.W)
+    print(ac.alrt("This task hasnt been added yet", "pnd"))
 
 """
 Checking to see if the OS is acceptable.
 """
 
 def Helper():
-    print(clr.B+"\t-i\tShow this information")
+    print(ac.clr.B+"\t-i\tShow this information")
     print("\t-h\tHide files.")
     print("\t-u\tUnhide files.")
     print("\t-x\tDelete files")
-    print("\tExample: "+clr.W+sys.argv[0]+" -h Path/To/Directory")
-    print(tasks.Testing())
+    print("\tExample: "+ac.clr.W+sys.argv[0]+" -h Path/To/Directory")
 
 def CheckOs():
-    print(alerts.pending + clr.B + 'Checking OperatingSystem...' + clr.W)
+    print(ac.alrt('Checking OperatingSystem...', "pnd"))
 
     currentOs = os.uname()[0]
     osTrue = ['Linux','Android']
 
     if currentOs in osTrue:
-        print(alerts.true + "Welcome " + os.uname()[1])
-        print(alerts.true + "Your system is acceptable!")
-        print(clr.G+"\t"+os.uname()[2]+clr.W)
-        print
+        print(ac.alrt("Welcome " + os.uname()[1], "tru"))
+        print(ac.alrt("Your system is acceptable!", "tru"))
+        print(ac.clr.G+"\t"+os.uname()[2]+ac.clr.W)
+        print("\n")
         time.sleep(0.5)
         CheckArgs()
     else:
-        print(alerts.false + "This script only works on Linux Operating system!")
+        print(ac.alrt("This script only works on Linux Operating system!", "fls"))
 
 """
 Starting the process of the job chosen.
@@ -61,7 +48,7 @@ Starting the process of the job chosen.
 def StartProcess():
     time.sleep(0.5)
     print
-    print(alerts.pending+clr.B+"Task to complete: "+clr.W+sys.argv[1])
+    print(ac.alrt(ac.clr.B+"Task to complete: "+ac.clr.W+sys.argv[1], "pnd"))
     
     acceptedArgs = ['-h','-u','-x','-i']
     
@@ -77,7 +64,7 @@ def StartProcess():
         else:
             Helper()
     else:
-        print(alerts.false+clr.R+"Illegal argument!"+clr.W)
+        print(ac.alrt(clr.R+"Illegal argument!"+clr.W, "fls"))
         Helper()
 
 
@@ -92,33 +79,32 @@ def Arguments():
     if(os.path.exists(path)):
         fileCount = len(os.listdir(path))
         
-        print(alerts.true + "Path exists: " + clr.Y + path + clr.W)
+        print(ac.alrt("Path exists: " + ac.clr.Y + path + ac.clr.W, "tru"))
         if(fileCount < 1):
-            print(alerts.false + clr.R + "No files in directory" + clr.W)
+            print(ac.alrt(ac.clr.R + "No files in directory" + ac.clr.W, "fls"))
         else:
-            print(alerts.true + clr.G + "Contains: " + str(fileCount) + " files." + clr.W)
+            print(ac.alrt(ac.clr.G + "Contains: " + str(fileCount) + " files." + ac.clr.W, "tru"))
             StartProcess()
     else:
-        print(alerts.false+clr.R+"Path does not exist!"+clr.W)
+        print(ac.alrt(ac.clr.R+"Path does not exist!"+ac.clr.W, "fls"))
 
 #Are there any arguments?
 def CheckArgs():
-    print(alerts.pending + clr.B + 'Checking arguments...' + clr.W)
+    print(ac.alrt(ac.clr.B + 'Checking arguments...' + ac.clr.W, "tru"))
 
     try:
         sys.argv[2]
         Arguments()
     except IndexError:
-        print(alerts.false + "No arguments passed.")
-        print("\t" + clr.R + "You need precisely 1 argument\n\tand a Location!" + clr.W)
+        print(ac.alrt("No arguments passed.", "fls"))
+        print("\t" + ac.clr.R + "You need precisely 1 argument\n\tand a Location!" + ac.clr.W)
+        Helper()
 
 """
 Putting everything together.
 """
     
-print
-print
+print("\n\n")
 Welcome()
 CheckOs()
-print
-print
+print("\n\n")
